@@ -4,33 +4,68 @@
  */
 package com.framework.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author fabricio
  */
-@Entity
-@Table(name = "users")
 public class User {
-    @Id
-    @Column(name = "id")
+
     private Integer id;
-    
-    @Column(name = "name")
     private String name;
-    
-    @Column(name = "password")
+    private String login;
     private String password;
-    
-    @Column(name = "token")
     private String token;
-    
-    @Column(name = "at_update")
     private String at_update;
+    private Connection conn;
+    private PreparedStatement pstm;
+    private ResultSet rs;
+    private ArrayList users;
+
+    public void connect() throws SQLException, ClassNotFoundException {
+        Connection_database connect = new Connection_database();
+        this.conn = connect.Connect();
+    }
+
+    public void close() throws SQLException, ClassNotFoundException {
+        this.conn.close();
+    }
+
+    public void setAll(User user) throws SQLException {
+        user.id = this.rs.getInt("id");
+        user.name = this.rs.getString("name");
+        user.login = this.rs.getString("login");
+    }
+
+    public boolean login(String login, String password) throws SQLException, ClassNotFoundException {
+        this.users = new ArrayList();
+        User user = new User();
+        this.connect();
+        this.pstm = this.conn.prepareStatement("SELECT * FROM users"
+                + "WHERE name = "
+                + login
+                + " AND password = "
+                + password);
+        this.rs = this.pstm.executeQuery();
+
+        if (this.rs.next()) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public List getUsers() {
+        List users = null;
+        return users;
+    }
 
     public Integer getId() {
         return id;
@@ -71,6 +106,5 @@ public class User {
     public void setAt_update(String at_update) {
         this.at_update = at_update;
     }
-    
-    
+
 }
