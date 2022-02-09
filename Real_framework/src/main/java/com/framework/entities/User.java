@@ -60,11 +60,15 @@ public class User {
         else{
             return false;
         }
+        close();
+}
+
+    public String getLogin() {
+        return login;
     }
 
-    public List getUsers() {
-        List users = null;
-        return users;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public Integer getId() {
