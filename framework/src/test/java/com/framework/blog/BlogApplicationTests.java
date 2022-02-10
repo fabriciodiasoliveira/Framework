@@ -1,10 +1,10 @@
-package com.fabricioweb.framework;
+package com.framework.blog;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FrameworkApplicationTests {
+class BlogApplicationTests {
 
 	@Test
 	void contextLoads() {
